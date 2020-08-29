@@ -1,28 +1,20 @@
-﻿using System.Security.Cryptography;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FallingRockTrigger : MonoBehaviour
 {
-
-    public Transform rock;
-    public float fallingSpeed;
-    private bool isFalling;
-    public float destroyTime;
-
-    private void Update()
-    {
-        if (isFalling)
-        {
-            rock.transform.Translate(0, fallingSpeed * Time.deltaTime * -1, 0);
-        }
-    }
+    public FallingRock rock;
+    public Transform landingGround;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<HeroController>())
         {
-            isFalling = true;
-            Destroy(rock.gameObject, destroyTime);
+            rock.isFalling = true;
+            rock.gameObject.AddComponent<Rigidbody2D>();
+            landingGround.SetParent(null);
+            gameObject.transform.SetParent(null);
+            Destroy(gameObject);
+            
         }
 
     }
